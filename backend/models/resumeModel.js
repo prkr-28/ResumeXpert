@@ -46,35 +46,41 @@ const ResumeSchema = new mongoose.Schema(
       {
         degree: String,
         institution: String,
+        fieldOfStudy: String,
         startDate: String,
         endDate: String,
+        gpa: String,
       },
     ],
     skills: [
       {
-        name: String,
-        progress: Number,
+        category: String,
+        skillsList: [String],
       },
     ],
     projects: [
       {
-        title: String,
+        name: String,
         description: String,
-        github: String,
-        liveDemo: String,
+        technologies: String,
+        link: String,
+        startDate: String,
+        endDate: String,
       },
     ],
     certifications: [
       {
-        title: String,
+        name: String,
         issuer: String,
-        year: String,
+        issueDate: String,
+        expiryDate: String,
+        credentialId: String,
       },
     ],
     languages: [
       {
-        name: String,
-        progress: Number,
+        language: String,
+        proficiency: String,
       },
     ],
     interests: [String],

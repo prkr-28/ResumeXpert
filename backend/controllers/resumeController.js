@@ -36,35 +36,41 @@ export const createResume = async (req, res) => {
         {
           degree: '',
           institution: '',
+          fieldOfStudy: '',
           startDate: '',
           endDate: '',
+          gpa: '',
         },
       ],
       skills: [
         {
-          name: '',
-          progress: 0,
+          category: '',
+          skillsList: [],
         },
       ],
       projects: [
         {
-          title: '',
+          name: '',
           description: '',
-          github: '',
-          liveDemo: '',
+          technologies: '',
+          link: '',
+          startDate: '',
+          endDate: '',
         },
       ],
       certifications: [
         {
-          title: '',
+          name: '',
           issuer: '',
-          year: '',
+          issueDate: '',
+          expiryDate: '',
+          credentialId: '',
         },
       ],
       languages: [
         {
-          name: '',
-          progress: 0,
+          language: '',
+          proficiency: '',
         },
       ],
       interests: [''],
@@ -106,17 +112,25 @@ export const getUserResume = async (req, res) => {
 //getresumebyid...
 export const getResumeById = async (req, res) => {
   try {
+    console.log('Getting resume with ID:', req.params.id);
+    console.log('User ID:', req.user._id);
+
     const resume = await Resume.findOne({
       _id: req.params.id,
       userId: req.user._id,
     });
+
     if (!resume) {
+      console.log('Resume not found');
       return res.status(404).json({
         message: 'Resume not found',
       });
     }
+
+    console.log('Resume found and returned');
     res.json(resume);
   } catch (error) {
+    console.error('Error in getResumeById:', error);
     res.status(500).json({
       message: 'failed to get resume',
       error: error.message,

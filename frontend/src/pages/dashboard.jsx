@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Dashboardlayout from '../components/dashboardlayout';
 import { dashboardStyles as styles } from '../assets/dummystyle';
 import { useNavigate } from 'react-router-dom';
@@ -55,34 +55,35 @@ const Dashboard = () => {
     });
 
     // Skills
-    resume.skills?.forEach((skill) => {
+    resume.skills?.forEach((skillCategory) => {
       totalFields += 2;
-      if (skill.name) completedFields++;
-      if (skill.progress > 0) completedFields++;
+      if (skillCategory.category) completedFields++;
+      if (skillCategory.skillsList && skillCategory.skillsList.length > 0)
+        completedFields++;
     });
 
     // Projects
     resume.projects?.forEach((project) => {
       totalFields += 4;
-      if (project.title) completedFields++;
+      if (project.name) completedFields++;
       if (project.description) completedFields++;
-      if (project.github) completedFields++;
-      if (project.liveDemo) completedFields++;
+      if (project.technologies) completedFields++;
+      if (project.link) completedFields++;
     });
 
     // Certifications
     resume.certifications?.forEach((cert) => {
       totalFields += 3;
-      if (cert.title) completedFields++;
+      if (cert.name) completedFields++;
       if (cert.issuer) completedFields++;
-      if (cert.year) completedFields++;
+      if (cert.issueDate) completedFields++;
     });
 
     // Languages
     resume.languages?.forEach((lang) => {
       totalFields += 2;
-      if (lang.name) completedFields++;
-      if (lang.progress > 0) completedFields++;
+      if (lang.language) completedFields++;
+      if (lang.proficiency) completedFields++;
     });
 
     // Interests
@@ -93,7 +94,7 @@ const Dashboard = () => {
     return Math.round((completedFields / totalFields) * 100);
   };
 
-  const fetchAllResumes = async () => {
+  const fetchAllResumes = useCallback(async () => {
     try {
       setLoading(true);
       const response = await axiosInstance.get(API_PATHS.RESUME.GET_ALL);
@@ -107,11 +108,11 @@ const Dashboard = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchAllResumes();
-  }, []);
+  }, [fetchAllResumes]);
 
   const handleDeleteResume = async () => {
     if (!resumeToDelete) {
@@ -125,7 +126,8 @@ const Dashboard = () => {
       toast.error('failed to delete resume');
     } finally {
       setResumeToDelete(null);
-      showDeleteConfirm(false);
+      setShowDeleteConfirm(false);
+      fetchAllResumes(); // Refresh the list
     }
   };
 

@@ -24,17 +24,17 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-//response...
-
-axiosInstance.interceptors.request.use(
+//response interceptor...
+axiosInstance.interceptors.response.use(
   (response) => {
     return response;
   },
   (error) => {
     if (error.response) {
       if (error.response.status === 401) {
-        window.location.href = 'l';
-      } else if (error.response.status.status === 500) {
+        localStorage.clear();
+        window.location.href = '/';
+      } else if (error.response.status === 500) {
         console.error('server error');
       }
     } else if (error.code === 'ECONNABORTED') {

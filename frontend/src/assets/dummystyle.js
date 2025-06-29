@@ -478,6 +478,40 @@ export const iconStyles = {
   pulseDot: 'w-2 h-2 rounded-full bg-emerald-500 animate-pulse',
 };
 
+export const resumeFormStyles = {
+  container: 'h-full flex flex-col',
+  sidebar:
+    'bg-gradient-to-b from-violet-50 to-white border-r border-violet-100 p-4',
+  sidebarTitle: 'text-lg font-bold text-gray-900 mb-4',
+  sectionList: 'space-y-2',
+  sectionItem:
+    'flex items-center gap-3 px-3 py-2 rounded-xl cursor-pointer transition-all',
+  sectionItemActive: 'bg-violet-100 text-violet-700 font-medium',
+  sectionItemInactive: 'text-gray-600 hover:bg-gray-100',
+  sectionIcon: 'w-5 h-5',
+  content: 'flex-1 p-6 overflow-y-auto',
+  sectionTitle: 'text-2xl font-bold text-gray-900 mb-6',
+  formGroup: 'mb-6',
+  label: 'block text-sm font-medium text-gray-700 mb-2',
+  input:
+    'w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent',
+  textarea:
+    'w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent min-h-[100px]',
+  arrayContainer: 'space-y-4',
+  arrayItem: 'p-4 border border-gray-200 rounded-lg bg-gray-50',
+  arrayItemHeader: 'flex items-center justify-between mb-4',
+  arrayItemTitle: 'text-lg font-medium text-gray-900',
+  removeButton:
+    'p-2 text-red-600 hover:bg-red-100 rounded-lg transition-colors',
+  addButton:
+    'flex items-center gap-2 px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors',
+  skillRow: 'grid grid-cols-2 gap-4 items-end',
+  progressBar: 'w-full bg-gray-200 rounded-full h-2',
+  progressFill: 'bg-violet-600 h-2 rounded-full transition-all',
+  gridTwo: 'grid grid-cols-1 md:grid-cols-2 gap-4',
+  gridThree: 'grid grid-cols-1 md:grid-cols-3 gap-4',
+};
+
 export const inputStyles = {
   wrapper: 'mb-6 group',
   label:

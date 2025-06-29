@@ -12,9 +12,9 @@ import { uploaResumeImage } from '../controllers/uploadImages.js';
 const resumeRoutes = express.Router();
 resumeRoutes.post('/', protect, createResume);
 resumeRoutes.get('/', protect, getUserResume);
-resumeRoutes.get('/:id'.protect, getResumeById);
+resumeRoutes.get('/:id', protect, getResumeById);
 
 resumeRoutes.put('/:id', protect, updateResume);
-resumeRoutes.put('/:id/uplod-images', protect, uploaResumeImage);
+resumeRoutes.put('/:id/upload-images', protect, uploaResumeImage);
 resumeRoutes.delete('/:id', protect, deleteResume);
 export default resumeRoutes;
