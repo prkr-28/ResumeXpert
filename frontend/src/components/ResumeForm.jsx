@@ -847,7 +847,41 @@ const ResumeForm = ({ resume, onUpdate }) => {
           })}
         </nav>
       </div>
-      <div className="flex-1 p-6 overflow-y-auto">{renderActiveSection()}</div>
+      <div className="flex-1 p-6 overflow-y-auto">
+        <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+          <div className="flex items-center gap-2">
+            <div className="text-blue-600">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                />
+                <path
+                  d="m9 12 2 2 4-4"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+            <p className="text-sm text-blue-800">
+              <strong>Auto-save is disabled.</strong> Your changes are tracked
+              but not automatically saved. Use the "Save Changes" button or
+              press Ctrl+S to save your progress.
+            </p>
+          </div>
+        </div>
+        {renderActiveSection()}
+      </div>
     </div>
   );
 };

@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import { containerStyles } from '../assets/dummystyle';
 import ResumeForm from '../components/ResumeForm';
 import ResumePreview from '../components/ResumePreview';
-import { Download, ArrowLeft, Palette } from 'lucide-react';
+import { Download, ArrowLeft, Palette, Save } from 'lucide-react';
 
 const ResumeEditor = () => {
   const { id } = useParams();
@@ -15,6 +15,7 @@ const ResumeEditor = () => {
   const [resume, setResume] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState('modern');
   const [showTemplateSelector, setShowTemplateSelector] = useState(false);
 
@@ -124,38 +125,70 @@ const ResumeEditor = () => {
     }
   }, [id, navigate]);
 
+  const handleSave = useCallback(
+    async (updatedData = null) => {
+      try {
+        setSaving(true);
+        const dataToSave = {
+          ...(updatedData || resume),
+          template: {
+            theme: selectedTemplate,
+            colorPalette: ['#7c3aed', '#a855f7', '#c084fc'],
+          },
+        };
+
+        const response = await axiosInstance.put(
+          API_PATHS.RESUME.UPDATE(id),
+          dataToSave
+        );
+        setResume(response.data);
+        setHasUnsavedChanges(false);
+        toast.success('Resume saved successfully!');
+      } catch (error) {
+        console.error('Error saving resume:', error);
+        toast.error('Failed to save resume');
+      } finally {
+        setSaving(false);
+      }
+    },
+    [resume, selectedTemplate, id]
+  );
+
   useEffect(() => {
     fetchResume();
   }, [fetchResume]);
 
-  const handleSave = async (updatedData) => {
-    try {
-      setSaving(true);
-      const dataToSave = {
-        ...updatedData,
-        template: {
-          theme: selectedTemplate,
-          colorPalette: ['#7c3aed', '#a855f7', '#c084fc'],
-        },
-      };
+  // Handle keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.ctrlKey && e.key === 's') {
+        e.preventDefault();
+        if (hasUnsavedChanges && !saving) {
+          handleSave();
+        }
+      }
+    };
 
-      const response = await axiosInstance.put(
-        API_PATHS.RESUME.UPDATE(id),
-        dataToSave
-      );
-      setResume(response.data);
-      toast.success('Resume saved successfully!');
-    } catch (error) {
-      console.error('Error saving resume:', error);
-      toast.error('Failed to save resume');
-    } finally {
-      setSaving(false);
-    }
-  };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [hasUnsavedChanges, saving, handleSave]);
+
+  // Handle page leave warning
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      if (hasUnsavedChanges) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [hasUnsavedChanges]);
 
   const handleUpdateResume = (updatedData) => {
     setResume((prev) => ({ ...prev, ...updatedData }));
-    handleSave(updatedData);
+    setHasUnsavedChanges(true);
   };
 
   const handleTemplateChange = (templateId) => {
@@ -221,11 +254,22 @@ const ResumeEditor = () => {
               <ArrowLeft size={20} className="text-violet-600" />
             </button>
             <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 flex items-center gap-2">
                 {resume.title}
+                {hasUnsavedChanges && (
+                  <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
+                    Unsaved changes
+                  </span>
+                )}
               </h1>
               <p className="text-gray-600 mt-1">
                 Complete your resume to increase your chances of getting hired
+                {hasUnsavedChanges && (
+                  <span className="text-orange-600 font-medium">
+                    {' '}
+                    • Press Ctrl+S to save
+                  </span>
+                )}
               </p>
             </div>
           </div>
@@ -238,11 +282,26 @@ const ResumeEditor = () => {
               Template
             </button>
             <button
+              onClick={() => handleSave()}
+              disabled={saving || !hasUnsavedChanges}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
+                hasUnsavedChanges && !saving
+                  ? 'bg-green-600 text-white hover:bg-green-700'
+                  : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+              }`}>
+              <Save size={18} />
+              {saving
+                ? 'Saving...'
+                : hasUnsavedChanges
+                ? 'Save Changes'
+                : 'No Changes'}
+            </button>
+            <button
               onClick={handleDownloadPDF}
               disabled={saving}
               className="flex items-center gap-2 px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 disabled:opacity-50 transition-colors">
               <Download size={18} />
-              {saving ? 'Saving...' : 'Download PDF'}
+              Download PDF
             </button>
           </div>
         </div>
