@@ -187,12 +187,12 @@ const ResumePreview = forwardRef(
           return {
             container: 'bg-white text-gray-900 font-serif',
             header: 'text-center border-b-2 border-gray-800 pb-6 mb-6',
-            nameStyle: 'text-3xl font-bold text-gray-900 mb-2',
-            titleStyle: 'text-lg text-gray-700 mb-4',
+            nameStyle: 'text-4xl font-bold text-gray-900 mb-2 tracking-wide',
+            titleStyle: 'text-xl text-gray-700 mb-4 font-semibold',
             sectionTitle:
-              'text-xl font-bold text-gray-900 border-b border-gray-400 pb-2 mb-4 uppercase tracking-wide',
+              'text-xl font-bold text-gray-900 border-b-2 border-gray-400 pb-2 mb-4 uppercase tracking-wider font-serif',
             contactStyle:
-              'flex flex-wrap justify-center gap-4 text-sm text-gray-600',
+              'flex flex-wrap justify-center gap-6 text-sm text-gray-600',
             primaryColor: 'text-gray-900',
             secondaryColor: 'text-gray-700',
             accentColor: 'text-gray-600',
@@ -202,15 +202,42 @@ const ResumePreview = forwardRef(
             container:
               'bg-gradient-to-br from-purple-50 to-pink-50 text-gray-900',
             header:
-              'text-left bg-gradient-to-r from-purple-600 to-pink-600 text-white p-6 mb-6 rounded-xl',
-            nameStyle: 'text-3xl font-bold text-white mb-2',
-            titleStyle: 'text-lg text-purple-100 mb-4',
+              'text-left bg-gradient-to-r from-purple-600 via-purple-700 to-pink-600 text-white p-8 mb-6 rounded-2xl shadow-lg',
+            nameStyle: 'text-4xl font-bold text-white mb-3 drop-shadow-md',
+            titleStyle: 'text-xl text-purple-100 mb-4 font-medium',
             sectionTitle:
-              'text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent border-b-2 border-purple-300 pb-2 mb-4',
+              'text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent border-b-2 border-purple-300 pb-3 mb-4',
             contactStyle: 'flex flex-wrap gap-4 text-sm text-purple-100',
             primaryColor: 'text-purple-600',
             secondaryColor: 'text-gray-700',
             accentColor: 'text-purple-500',
+          };
+        case 'professional':
+          return {
+            container: 'bg-white text-gray-900',
+            header: 'text-left bg-blue-900 text-white p-6 mb-6 -m-8 mb-6',
+            nameStyle: 'text-3xl font-bold text-white mb-2',
+            titleStyle: 'text-lg text-blue-100 mb-4 font-medium',
+            sectionTitle:
+              'text-xl font-bold text-blue-900 border-b-2 border-blue-200 pb-2 mb-4 uppercase tracking-wide',
+            contactStyle: 'flex flex-wrap gap-4 text-sm text-blue-100',
+            primaryColor: 'text-blue-900',
+            secondaryColor: 'text-gray-700',
+            accentColor: 'text-blue-600',
+          };
+        case 'minimal':
+          return {
+            container: 'bg-white text-gray-900',
+            header: 'text-center pb-8 mb-8 border-b border-gray-200',
+            nameStyle: 'text-4xl font-light text-gray-900 mb-3 tracking-wider',
+            titleStyle: 'text-lg text-gray-600 mb-6 font-normal tracking-wide',
+            sectionTitle:
+              'text-lg font-medium text-gray-900 mb-4 tracking-wide uppercase text-sm',
+            contactStyle:
+              'flex flex-wrap justify-center gap-6 text-sm text-gray-600',
+            primaryColor: 'text-gray-900',
+            secondaryColor: 'text-gray-700',
+            accentColor: 'text-gray-500',
           };
         default: // modern
           return {
@@ -296,13 +323,20 @@ const ResumePreview = forwardRef(
             className={`max-w-4xl mx-auto p-6 print:p-0 print:max-w-none ${styles.container}`}>
             <div className="bg-white shadow-lg print:shadow-none p-8 space-y-6">
               {/* Header Section */}
-              <div className={styles.header}>
+              <div
+                className={`${styles.header} ${
+                  template === 'professional' ? 'text-white' : ''
+                }`}>
                 <div className="flex items-center gap-6">
                   {profileInfo?.profilePreviewUrl && (
                     <img
                       src={profileInfo.profilePreviewUrl}
                       alt={profileInfo.fullName || 'Profile'}
-                      className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg"
+                      className={`w-24 h-24 rounded-full object-cover shadow-lg ${
+                        template === 'professional'
+                          ? 'border-4 border-white'
+                          : 'border-4 border-white'
+                      }`}
                     />
                   )}
                   <div className="flex-1">
@@ -356,10 +390,20 @@ const ResumePreview = forwardRef(
                 </div>
                 {profileInfo?.summary && (
                   <div className="mt-6">
-                    <h3 className={`${styles.sectionTitle} text-lg mb-3`}>
+                    <h3
+                      className={`${styles.sectionTitle} text-lg mb-3 ${
+                        template === 'professional'
+                          ? 'text-white border-blue-200'
+                          : ''
+                      }`}>
                       Summary
                     </h3>
-                    <p className={`${styles.secondaryColor} leading-relaxed`}>
+                    <p
+                      className={`leading-relaxed ${
+                        template === 'professional'
+                          ? 'text-blue-100'
+                          : styles.secondaryColor
+                      }`}>
                       {profileInfo.summary}
                     </p>
                   </div>
@@ -489,10 +533,14 @@ const ResumePreview = forwardRef(
                                           key={skillIndex}
                                           className={`px-3 py-1 rounded-full text-sm font-medium ${
                                             template === 'creative'
-                                              ? 'bg-purple-100 text-purple-700'
+                                              ? 'bg-purple-100 text-purple-700 border border-purple-200'
                                               : template === 'classic'
-                                              ? 'bg-gray-100 text-gray-700'
-                                              : 'bg-violet-100 text-violet-700'
+                                              ? 'bg-gray-100 text-gray-700 border border-gray-300'
+                                              : template === 'professional'
+                                              ? 'bg-blue-100 text-blue-700 border border-blue-200'
+                                              : template === 'minimal'
+                                              ? 'bg-gray-50 text-gray-700 border border-gray-200'
+                                              : 'bg-violet-100 text-violet-700 border border-violet-200'
                                           }`}>
                                           {skill}
                                         </span>
@@ -660,10 +708,14 @@ const ResumePreview = forwardRef(
                               key={index}
                               className={`px-3 py-1 rounded-full text-sm font-medium ${
                                 template === 'creative'
-                                  ? 'bg-purple-100 text-purple-700'
+                                  ? 'bg-purple-100 text-purple-700 border border-purple-200'
                                   : template === 'classic'
-                                  ? 'bg-gray-100 text-gray-700'
-                                  : 'bg-violet-100 text-violet-700'
+                                  ? 'bg-gray-100 text-gray-700 border border-gray-300'
+                                  : template === 'professional'
+                                  ? 'bg-blue-100 text-blue-700 border border-blue-200'
+                                  : template === 'minimal'
+                                  ? 'bg-gray-50 text-gray-700 border border-gray-200'
+                                  : 'bg-violet-100 text-violet-700 border border-violet-200'
                               }`}>
                               {interest}
                             </span>

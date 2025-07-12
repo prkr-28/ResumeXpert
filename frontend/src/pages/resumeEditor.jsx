@@ -21,7 +21,7 @@ const ResumeEditor = () => {
 
   const getTemplatePreview = (templateId) => {
     const baseStyles =
-      'aspect-[3/4] rounded-lg mb-3 p-2 text-xs overflow-hidden';
+      'aspect-[3/4] rounded-lg mb-3 p-2 text-xs overflow-hidden shadow-sm';
 
     switch (templateId) {
       case 'modern':
@@ -35,17 +35,24 @@ const ResumeEditor = () => {
               <div className="h-1 bg-violet-100 rounded w-3/4"></div>
               <div className="h-1 bg-violet-100 rounded w-1/2"></div>
             </div>
+            <div className="mt-2 space-y-1">
+              <div className="h-1 bg-gray-200 rounded w-2/3"></div>
+              <div className="h-1 bg-gray-200 rounded w-4/5"></div>
+            </div>
           </div>
         );
       case 'classic':
         return (
-          <div className={`${baseStyles} bg-white border border-gray-300`}>
-            <div className="border-b-2 border-gray-400 pb-1 mb-2">
-              <div className="h-2 bg-gray-700 rounded mb-1"></div>
-              <div className="h-1 bg-gray-500 rounded w-2/3"></div>
+          <div className={`${baseStyles} bg-white border border-gray-400`}>
+            <div className="text-center border-b-2 border-gray-400 pb-1 mb-2">
+              <div className="h-2 bg-gray-800 rounded mb-1 mx-auto w-3/4"></div>
+              <div className="h-1 bg-gray-600 rounded w-1/2 mx-auto"></div>
             </div>
             <div className="space-y-1">
-              <div className="h-1 bg-gray-200 rounded"></div>
+              <div className="h-1 bg-gray-300 rounded w-2/3 mx-auto"></div>
+              <div className="h-1 bg-gray-300 rounded w-1/2 mx-auto"></div>
+            </div>
+            <div className="mt-2 space-y-1">
               <div className="h-1 bg-gray-200 rounded w-4/5"></div>
               <div className="h-1 bg-gray-200 rounded w-3/5"></div>
             </div>
@@ -55,14 +62,54 @@ const ResumeEditor = () => {
         return (
           <div
             className={`${baseStyles} bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-200`}>
-            <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded p-1 mb-2">
-              <div className="h-2 bg-white/30 rounded mb-1"></div>
-              <div className="h-1 bg-white/20 rounded w-2/3"></div>
+            <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg p-1 mb-2">
+              <div className="h-2 bg-white/40 rounded mb-1"></div>
+              <div className="h-1 bg-white/30 rounded w-2/3"></div>
             </div>
             <div className="space-y-1">
               <div className="h-1 bg-purple-200 rounded"></div>
               <div className="h-1 bg-purple-200 rounded w-3/4"></div>
               <div className="h-1 bg-purple-200 rounded w-1/2"></div>
+            </div>
+            <div className="mt-2 flex gap-1">
+              <div className="h-2 w-4 bg-purple-100 rounded-full"></div>
+              <div className="h-2 w-3 bg-purple-100 rounded-full"></div>
+              <div className="h-2 w-5 bg-purple-100 rounded-full"></div>
+            </div>
+          </div>
+        );
+      case 'professional':
+        return (
+          <div className={`${baseStyles} bg-white border border-blue-200`}>
+            <div className="bg-blue-900 text-white p-1 -m-2 mb-2 rounded-t-lg">
+              <div className="h-2 bg-white/30 rounded mb-1"></div>
+              <div className="h-1 bg-blue-200/60 rounded w-2/3"></div>
+            </div>
+            <div className="space-y-1 mt-2">
+              <div className="h-1 bg-blue-100 rounded w-full border-b border-blue-200"></div>
+              <div className="h-1 bg-gray-200 rounded w-4/5"></div>
+              <div className="h-1 bg-gray-200 rounded w-3/5"></div>
+            </div>
+            <div className="mt-2 space-y-1">
+              <div className="h-1 bg-blue-50 rounded w-2/3"></div>
+              <div className="h-1 bg-blue-50 rounded w-1/2"></div>
+            </div>
+          </div>
+        );
+      case 'minimal':
+        return (
+          <div className={`${baseStyles} bg-white border border-gray-200`}>
+            <div className="text-center border-b border-gray-200 pb-2 mb-2">
+              <div className="h-2 bg-gray-700 rounded mb-1 mx-auto w-2/3"></div>
+              <div className="h-1 bg-gray-500 rounded w-1/2 mx-auto"></div>
+            </div>
+            <div className="space-y-2">
+              <div className="h-1 bg-gray-200 rounded w-1/3"></div>
+              <div className="space-y-1">
+                <div className="h-1 bg-gray-100 rounded w-full"></div>
+                <div className="h-1 bg-gray-100 rounded w-4/5"></div>
+                <div className="h-1 bg-gray-100 rounded w-3/5"></div>
+              </div>
             </div>
           </div>
         );
@@ -80,20 +127,37 @@ const ResumeEditor = () => {
     {
       id: 'modern',
       name: 'Modern',
-      description: 'Clean and contemporary design with violet accents',
-      // preview: '/api/placeholder/120/160'
+      description:
+        'Clean and contemporary design with violet accents and sleek typography',
+      category: 'Professional',
     },
     {
       id: 'classic',
       name: 'Classic',
-      description: 'Traditional professional layout with serif fonts',
-      // preview: '/api/placeholder/120/160'
+      description:
+        'Traditional professional layout with serif fonts and centered header',
+      category: 'Traditional',
     },
     {
       id: 'creative',
       name: 'Creative',
-      description: 'Bold and eye-catching design with gradients',
-      // preview: '/api/placeholder/120/160'
+      description:
+        'Bold and eye-catching design with gradients and vibrant colors',
+      category: 'Creative',
+    },
+    {
+      id: 'professional',
+      name: 'Professional',
+      description:
+        'Corporate-style template with blue color scheme and structured layout',
+      category: 'Business',
+    },
+    {
+      id: 'minimal',
+      name: 'Minimal',
+      description:
+        'Clean and simple design focused on content with minimal styling',
+      category: 'Minimal',
     },
   ];
 
@@ -309,24 +373,66 @@ const ResumeEditor = () => {
         {/* Template Selector */}
         {showTemplateSelector && (
           <div className="mb-6 p-6 bg-white border border-violet-100 rounded-2xl shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">
-              Choose Template
+            <h3 className="text-lg font-semibold text-gray-900 mb-6">
+              Choose Template Style
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
               {templates.map((template) => (
                 <div
                   key={template.id}
                   onClick={() => handleTemplateChange(template.id)}
-                  className={`p-4 border-2 rounded-xl cursor-pointer transition-all hover:shadow-md ${
+                  className={`group p-4 border-2 rounded-xl cursor-pointer transition-all hover:shadow-lg hover:scale-105 ${
                     selectedTemplate === template.id
-                      ? 'border-violet-500 bg-violet-50'
+                      ? 'border-violet-500 bg-violet-50 shadow-md'
                       : 'border-gray-200 hover:border-violet-300'
                   }`}>
-                  {getTemplatePreview(template.id)}
-                  <h4 className="font-medium text-gray-900">{template.name}</h4>
-                  <p className="text-sm text-gray-600">
-                    {template.description}
-                  </p>
+                  {/* Template Preview */}
+                  <div className="relative mb-3">
+                    {getTemplatePreview(template.id)}
+                    {selectedTemplate === template.id && (
+                      <div className="absolute -top-2 -right-2 w-6 h-6 bg-violet-500 text-white rounded-full flex items-center justify-center text-xs">
+                        ✓
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Template Info */}
+                  <div className="text-center">
+                    <h4 className="font-semibold text-gray-900 mb-1">
+                      {template.name}
+                    </h4>
+                    <span
+                      className={`inline-block px-2 py-1 rounded-full text-xs font-medium mb-2 ${
+                        template.category === 'Professional'
+                          ? 'bg-violet-100 text-violet-700'
+                          : template.category === 'Traditional'
+                          ? 'bg-gray-100 text-gray-700'
+                          : template.category === 'Creative'
+                          ? 'bg-purple-100 text-purple-700'
+                          : template.category === 'Business'
+                          ? 'bg-blue-100 text-blue-700'
+                          : 'bg-green-100 text-green-700'
+                      }`}>
+                      {template.category}
+                    </span>
+                    <p className="text-xs text-gray-600 leading-tight">
+                      {template.description}
+                    </p>
+                  </div>
+
+                  {/* Hover Effect */}
+                  <div
+                    className={`mt-3 text-center transition-opacity ${
+                      selectedTemplate === template.id
+                        ? 'opacity-100'
+                        : 'opacity-0 group-hover:opacity-100'
+                    }`}>
+                    <span className="text-xs font-medium text-violet-600">
+                      {selectedTemplate === template.id
+                        ? 'Currently Selected'
+                        : 'Click to Select'}
+                    </span>
+                  </div>
                 </div>
               ))}
             </div>
