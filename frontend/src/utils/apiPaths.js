@@ -1,15 +1,15 @@
-export const BASE_URL = 'http://localhost:4000';
+export const BASE_URL = "https://resumexpert-uyh9.onrender.com";
 
 //routes for frontend...
 export const API_PATHS = {
   AUTH: {
-    REGISTER: '/api/auth/register',
-    LOGIN: '/api/auth/login',
-    GET_PROFILE: '/api/auth/profile',
+    REGISTER: "/api/auth/register",
+    LOGIN: "/api/auth/login",
+    GET_PROFILE: "/api/auth/profile",
   },
   RESUME: {
-    CREATE: '/api/resume',
-    GET_ALL: '/api/resume',
+    CREATE: "/api/resume",
+    GET_ALL: "/api/resume",
     GET_BY_ID: (id) => `/api/resume/${id}`,
 
     UPDATE: (id) => `/api/resume/${id}`,
@@ -17,6 +17,6 @@ export const API_PATHS = {
     UPLOAD_IMAGES: (id) => `/api/resume/${id}/upload-images`,
   },
   IMAGE: {
-    UPLOAD_IMAGE: 'api/auth/upload-image',
+    UPLOAD_IMAGE: "api/auth/upload-image",
   },
 };
